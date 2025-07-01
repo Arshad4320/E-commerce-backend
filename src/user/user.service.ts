@@ -2,7 +2,10 @@ import jwt from "jsonwebtoken";
 import IUser from "./user.interface";
 import { User } from "./user.model";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 const jwtSecret = process.env.JWT_SECRET as string;
+
 const registerUserFromIntoDb = async (payload: IUser) => {
   try {
     const isExits = await User.findOne({ email: payload.email });
@@ -54,13 +57,8 @@ const loginFromUserIntoDb = async (payload: {
 const getUsersFormIntoDb = async () => {
   try {
     const result = await User.find();
-    const buyer = await User.find({ role: "buyer" });
 
-    const seller = await User.find({ role: "seller" });
-
-    const admin = await User.find({ role: "admin" });
-
-    return { result, buyer, seller, admin };
+    return result;
   } catch (err) {
     console.log(err);
   }

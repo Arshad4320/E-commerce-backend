@@ -17,7 +17,9 @@ const registerUser = async (req: Request, res: Response) => {
 const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+
     const result = await userServices.loginFromUserIntoDb({ email, password });
+
     res.json({
       success: true,
       message: "user login successfully",
