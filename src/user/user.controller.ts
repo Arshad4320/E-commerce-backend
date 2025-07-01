@@ -32,6 +32,11 @@ const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const payload = req.body;
     const result = await userServices.updateUserFormIntoDb(id, payload);
+    res.json({
+      success: true,
+      message: "user update successfully",
+      data: result,
+    });
   } catch (err) {
     console.log(err);
   }

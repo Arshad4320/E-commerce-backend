@@ -25,22 +25,28 @@ const loginFromUserIntoDb = async (payload: {
     if (!user) {
       return "user not found please create account or try again";
     }
-    const match = await bcrypt.compare(user.password, payload.password);
-    if (match) {
+    const match = await bcrypt.compare(payload.password, user.password);
+    if (!match) {
       return "wrong password,please try again";
     }
     const token = jwt.sign(
       {
         email: user.email,
-        password: user.password,
         userId: user._id,
         role: user.role,
       },
       jwtSecret,
       { expiresIn: "30d" }
     );
-    const result = await User.create({ user, token });
-    return result;
+    return {
+      token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name,
+      },
+    };
   } catch (err) {
     console.log(err);
   }
