@@ -30,7 +30,12 @@ const loginFromUserIntoDb = async (payload: {
       return "wrong password,please try again";
     }
     const token = jwt.sign(
-      { email: user.email, password: user.password, userId: user._id },
+      {
+        email: user.email,
+        password: user.password,
+        userId: user._id,
+        role: user.role,
+      },
       jwtSecret,
       { expiresIn: "30d" }
     );
